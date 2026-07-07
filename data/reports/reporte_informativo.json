@@ -1,0 +1,103 @@
+{
+    "INFORMACION_STORES": {
+        "filas": 54,
+        "columnas": 5,
+        "tipos_de_dato": {
+            "store_nbr": "Int64",
+            "city": "String",
+            "state": "String",
+            "type": "String",
+            "cluster": "Int64"
+        },
+        "nulos_por_columna": {
+            "store_nbr": 0,
+            "city": 0,
+            "state": 0,
+            "type": 0,
+            "cluster": 0
+        },
+        "duplicados": 0
+    },
+    "INFORMACION_TRAIN": {
+        "filas": 3000888,
+        "columnas": 6,
+        "tipos_de_dato": {
+            "id": "Int64",
+            "date": "String",
+            "store_nbr": "Int64",
+            "family": "String",
+            "sales": "Float64",
+            "onpromotion": "Int64"
+        },
+        "nulos_por_columna": {
+            "id": 0,
+            "date": 0,
+            "store_nbr": 0,
+            "family": 0,
+            "sales": 0,
+            "onpromotion": 0
+        },
+        "duplicados": 0,
+        "fecha_rango": {
+            "min": "2013-01-01",
+            "max": "2017-08-15"
+        }
+    },
+    "INFORMACION_TRANSACTIONS": {
+        "filas": 83488,
+        "columnas": 3,
+        "tipos_de_dato": {
+            "date": "String",
+            "store_nbr": "Int64",
+            "transactions": "Int64"
+        },
+        "nulos_por_columna": {
+            "date": 0,
+            "store_nbr": 0,
+            "transactions": 0
+        },
+        "duplicados": 0,
+        "fecha_rango": {
+            "min": "2013-01-01",
+            "max": "2017-08-15"
+        }
+    },
+    "INFORMACION_HOLIDAYS": {
+        "filas": 350,
+        "columnas": 6,
+        "tipos_de_dato": {
+            "date": "String",
+            "type": "String",
+            "locale": "String",
+            "locale_name": "String",
+            "description": "String",
+            "transferred": "Boolean"
+        },
+        "nulos_por_columna": {
+            "date": 0,
+            "type": 0,
+            "locale": 0,
+            "locale_name": 0,
+            "description": 0,
+            "transferred": 0
+        },
+        "duplicados": 0,
+        "fecha_rango": {
+            "min": "2012-03-02",
+            "max": "2017-12-26"
+        }
+    },
+    "INFORMACION_OIL": {
+        "filas": 1218,
+        "columnas": 2,
+        "tipos_de_dato": {
+            "date": "String",
+            "dcoilwtico": "Float64"
+        },
+        "nulos_por_columna": {
+            "date": 0,
+            "dcoilwtico": 43
+        },
+        "duplicados": 0
+    }
+}
