@@ -1,0 +1,96 @@
+from airflow import DAG
+from airflow.providers.standard.operators.python import PythonOperator
+from datetime import datetime, timedelta
+import sys
+import logging
+
+sys.path.append("/home/azureuser/proyecto_favorita")
+
+# --- Carga y EDA inicial ---
+from scripts.carga.carga_train import cargar_train, diagnosticar_train
+from scripts.carga.carga_stores import cargar_stores, diagnosticar_stores
+from scripts.carga.carga_transactions import cargar_transactions, diagnosticar_transactions
+from scripts.carga.carga_holidays import cargar_holidays, diagnosticar_holidays
+from scripts.carga.carga_oil import cargar_oil, diagnosticar_oil
+
+# --- Limpieza ---
+
+
+
+def registrar_error(context):
+    logging.error(
+        f"Fallo en tarea: {context['task_instance'].task_id} - DAG: {context['dag'].dag_id}"
+    )
+
+
+default_args = {
+    "retries": 1,
+    "retry_delay": timedelta(minutes=5),
+    "on_failure_callback": registrar_error,
+}
+
+
+with DAG(
+    dag_id="favorita_pipeline",
+    start_date=datetime(2026, 7, 1),
+    schedule=None,
+    catchup=False,
+    default_args=default_args,
+) as dag:
+
+    # --- Stores ---
+    t_cargar_stores = PythonOperator(
+        task_id="cargar_stores",
+        python_callable=cargar_stores,
+    )
+    t_diagnosticar_stores = PythonOperator(
+        task_id="diagnosticar_stores",
+        python_callable=diagnosticar_stores,
+    )
+
+
+    # --- Train ---
+    t_cargar_train = PythonOperator(
+        task_id="cargar_train",
+        python_callable=cargar_train,
+    )
+    t_diagnosticar_train = PythonOperator(
+        task_id="diagnosticar_train",
+        python_callable=diagnosticar_train,
+    )
+
+    # --- Transactions ---
+    t_cargar_transactions = PythonOperator(
+        task_id="cargar_transactions",
+        python_callable=cargar_transactions,
+    )
+    t_diagnosticar_transactions = PythonOperator(
+        task_id="diagnosticar_transactions",
+        python_callable=diagnosticar_transactions,
+    )
+
+    # --- Holidays ---
+    t_cargar_holidays = PythonOperator(
+        task_id="cargar_holidays",
+        python_callable=cargar_holidays,
+    )
+    t_diagnosticar_holidays = PythonOperator(
+        task_id="diagnosticar_holidays",
+        python_callable=diagnosticar_holidays,
+    )
+
+    # --- Oil ---
+    t_cargar_oil = PythonOperator(
+        task_id="cargar_oil",
+        python_callable=cargar_oil,
+    )
+    t_diagnosticar_oil = PythonOperator(
+        task_id="diagnosticar_oil",
+        python_callable=diagnosticar_oil,
+    )
+
+    t_cargar_stores >> t_diagnosticar_stores
+    t_cargar_train >> t_diagnosticar_train
+    t_cargar_transactions >> t_diagnosticar_transactions
+    t_cargar_holidays >> t_diagnosticar_holidays
+    t_cargar_oil >> t_diagnosticar_oil
