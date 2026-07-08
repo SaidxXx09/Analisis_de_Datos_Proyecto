@@ -2,15 +2,15 @@ import polars as pl
 import json 
 import os
 
-RUTA_REPORTE = "data/reports/reporte_informativo.json"
+RUTA_REPORTE = "Analisis_de_Datos_Proyecto/data/reports/reporte_informativo.json"
 
 def cargar_holidays():
-    df = pl.read_csv("data/datasets/holidays_events.csv")
-    df.write_parquet("data/processed/holidays_events.parquet")
+    df = pl.read_csv("Analisis_de_Datos_Proyecto/data/datasets/holidays_events.csv")
+    df.write_parquet("Analisis_de_Datos_Proyecto/data/processed/holidays_events.parquet")
     print("holidays_events cargado...")
 
 def diagnosticar_holidays():
-    df = pl.read_parquet("data/processed/holidays_events.parquet")
+    df = pl.read_parquet("Analisis_de_Datos_Proyecto/data/processed/holidays_events.parquet")
 
     print(f"Forma del dataset: \n{df.shape}")
     print(f"Tipo de datos: \n{df.dtypes}")

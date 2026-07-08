@@ -7,11 +7,11 @@ import logging
 sys.path.append("/home/azureuser/proyecto_favorita")
 
 # --- Carga y EDA inicial ---
-from scripts.carga.carga_train import cargar_train, diagnosticar_train
-from scripts.carga.carga_stores import cargar_stores, diagnosticar_stores
-from scripts.carga.carga_transactions import cargar_transactions, diagnosticar_transactions
-from scripts.carga.carga_holidays import cargar_holidays, diagnosticar_holidays
-from scripts.carga.carga_oil import cargar_oil, diagnosticar_oil
+from Analisis_de_Datos_Proyecto.scripts.carga.carga_train import cargar_train, diagnosticar_train
+from Analisis_de_Datos_Proyecto.scripts.carga.carga_stores import cargar_stores, diagnosticar_stores
+from Analisis_de_Datos_Proyecto.scripts.carga.carga_transactions import cargar_transactions, diagnosticar_transactions
+from Analisis_de_Datos_Proyecto.scripts.carga.carga_holidays import cargar_holidays, diagnosticar_holidays
+from Analisis_de_Datos_Proyecto.scripts.carga.carga_oil import cargar_oil, diagnosticar_oil
 
 # --- Limpieza ---
 
