@@ -2,15 +2,15 @@ import polars as pl
 import json 
 import os
 
-RUTA_REPORTE = "Analisis_de_Datos_Proyecto/data/reports/reporte_informativo.json"
+RUTA_REPORTE = "/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/reports/reporte_informativo.json"
 
 def cargar_train():
-    df = pl.read_csv("Analisis_de_Datos_Proyecto/data/datasets/train.csv")
-    df.write_parquet("Analisis_de_Datos_Proyecto/data/processed/train.parquet")
+    df = pl.read_csv("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/datasets/train.csv")
+    df.write_parquet("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/processed/train.parquet")
     print("train cargado...")
 
 def diagnosticar_train():
-    df = pl.read_parquet("Analisis_de_Datos_Proyecto/data/processed/train.parquet")
+    df = pl.read_parquet("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/processed/train.parquet")
 
     print(f"Forma del dataset: \n{df.shape}")
     print(f"Tipo de datos: \n{df.dtypes}")

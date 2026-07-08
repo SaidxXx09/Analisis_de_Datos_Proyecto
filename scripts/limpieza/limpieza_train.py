@@ -1,7 +1,7 @@
 import polars as pl
 
 def limpiar_train():
-    df = pl.read_parquet("Analisis_de_Datos_Proyecto/data/processed/train.parquet")
+    df = pl.read_parquet("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/processed/train.parquet")
 
     print("Renombrando columnas...")
     df = df.rename({

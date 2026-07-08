@@ -3,13 +3,13 @@ import json
 import os
 
 def cargar_stores():
-    df = pl.read_csv("Analisis_de_Datos_Proyecto/data/datasets/stores.csv")
-    df.write_parquet("Analisis_de_Datos_Proyecto/data/processed/stores.parquet")
+    df = pl.read_csv("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/datasets/stores.csv")
+    df.write_parquet("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/processed/stores.parquet")
     print(f"stores cargado: {df.shape}")
 
 
 def diagnosticar_stores():
-    df = pl.read_parquet("Analisis_de_Datos_Proyecto/data/processed/stores.parquet")
+    df = pl.read_parquet("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/processed/stores.parquet")
 
     print(f"Forma del dataset: \n{df.shape}")
     print(f"Tipo de datos: \n{df.dtypes}")
@@ -26,7 +26,7 @@ def diagnosticar_stores():
         "duplicados": int(df.is_duplicated().sum())
     }
 
-    RUTA_REPORTE = "Analisis_de_Datos_Proyecto/data/reports/reporte_informativo.json"
+    RUTA_REPORTE = "/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/reports/reporte_informativo.json"
 
 
     if os.path.exists(RUTA_REPORTE):
