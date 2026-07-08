@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import sys
 import logging
 
-sys.path.append("/home/azureuser/proyecto_favorita")
+sys.path.append("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto")
 
 # --- Carga y EDA inicial ---
 from Analisis_de_Datos_Proyecto.scripts.carga.carga_train import cargar_train, diagnosticar_train
