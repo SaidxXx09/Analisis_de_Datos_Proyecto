@@ -42,5 +42,24 @@
             "grupo": 0
         },
         "duplicados": 0
+    },
+    "INFORMACION_TRANSACTIONS": {
+        "filas": 83488,
+        "columnas": 3,
+        "tipos_de_dato": {
+            "fecha": "Date",
+            "num_tienda": "Int64",
+            "transacciones": "Int64"
+        },
+        "nulos_por_columna": {
+            "fecha": 0,
+            "num_tienda": 0,
+            "transacciones": 0
+        },
+        "duplicados": 0,
+        "fecha_rango": {
+            "min": "2013-01-01",
+            "max": "2017-08-15"
+        }
     }
 }
