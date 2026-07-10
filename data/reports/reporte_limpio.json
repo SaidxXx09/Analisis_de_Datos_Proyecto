@@ -1,0 +1,46 @@
+{
+    "INFORMACION_TRAIN": {
+        "filas": 3000888,
+        "columnas": 6,
+        "tipos_de_dato": {
+            "id": "Int64",
+            "fecha": "Date",
+            "num_tienda": "Int64",
+            "categoria": "String",
+            "ventas": "Float64",
+            "promocion": "Int64"
+        },
+        "nulos_por_columna": {
+            "id": 0,
+            "fecha": 0,
+            "num_tienda": 0,
+            "categoria": 0,
+            "ventas": 0,
+            "promocion": 0
+        },
+        "duplicados": 0,
+        "fecha_rango": {
+            "min": "2013-01-01",
+            "max": "2017-08-15"
+        }
+    },
+    "INFORMACION_STORES": {
+        "filas": 54,
+        "columnas": 5,
+        "tipos_de_dato": {
+            "num_tienda": "Int64",
+            "ciudad": "String",
+            "estado": "String",
+            "tipo": "String",
+            "grupo": "Int64"
+        },
+        "nulos_por_columna": {
+            "num_tienda": 0,
+            "ciudad": 0,
+            "estado": 0,
+            "tipo": 0,
+            "grupo": 0
+        },
+        "duplicados": 0
+    }
+}
