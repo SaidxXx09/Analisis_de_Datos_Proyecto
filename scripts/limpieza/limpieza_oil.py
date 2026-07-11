@@ -20,7 +20,7 @@ def limpiar_oil():
 
     print('Corrigiendo tipos de datos...')
     df = df.with_columns(
-        pl.col('fecha').str.to_datetime(format="%Y-%m-%d")
+        pl.col('fecha').str.to_date(format="%Y-%m-%d")
     )
     print('Corrección realizada con éxito.')
 
