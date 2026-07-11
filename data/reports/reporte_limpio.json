@@ -66,7 +66,7 @@
         "filas": 350,
         "columnas": 6,
         "tipos_de_dato": {
-            "fecha": "Datetime(time_unit='us', time_zone=None)",
+            "fecha": "Date",
             "tipo": "String",
             "alcance": "String",
             "nombre_lugar": "String",
@@ -83,15 +83,15 @@
         },
         "duplicados": 0,
         "fecha_rango": {
-            "min": "2012-03-02 00:00:00",
-            "max": "2017-12-26 00:00:00"
+            "min": "2012-03-02",
+            "max": "2017-12-26"
         }
     },
     "INFORMACION_OIL": {
         "filas": 1218,
         "columnas": 2,
         "tipos_de_dato": {
-            "fecha": "Datetime(time_unit='us', time_zone=None)",
+            "fecha": "Date",
             "precio_diario_petroleo": "Float64"
         },
         "nulos_por_columna": {
@@ -100,8 +100,8 @@
         },
         "duplicados": 0,
         "fecha_rango": {
-            "min": "2013-01-01 00:00:00",
-            "max": "2017-08-31 00:00:00"
+            "min": "2013-01-01",
+            "max": "2017-08-31"
         }
     }
 }
