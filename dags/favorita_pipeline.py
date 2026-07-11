@@ -17,6 +17,8 @@ from Analisis_de_Datos_Proyecto.scripts.carga.carga_oil import cargar_oil, diagn
 from Analisis_de_Datos_Proyecto.scripts.limpieza.limpieza_train import limpiar_train
 from Analisis_de_Datos_Proyecto.scripts.limpieza.limpieza_stores import limpiar_stores
 from Analisis_de_Datos_Proyecto.scripts.limpieza.limpieza_transaccions import limpiar_transactions
+from Analisis_de_Datos_Proyecto.scripts.limpieza.limpieza_holidays import limpiar_holidays
+from Analisis_de_Datos_Proyecto.scripts.limpieza.limpieza_oil import limpiar_oil
 
 def registrar_error(context):
     logging.error(
@@ -90,6 +92,10 @@ with DAG(
         task_id="diagnosticar_holidays",
         python_callable=diagnosticar_holidays,
     )
+    t_limpiar_holidays = PythonOperator(
+        task_id = 'limpiar_holidays',
+        python_callable = limpiar_holidays
+    )
 
     # --- Oil ---
     t_cargar_oil = PythonOperator(
@@ -100,9 +106,13 @@ with DAG(
         task_id="diagnosticar_oil",
         python_callable=diagnosticar_oil,
     )
+    t_limpiar_oil = PythonOperator(
+        task_id = 'limpiar_oil',
+        python_callable = limpiar_oil
+    )
 
     t_cargar_stores >> t_diagnosticar_stores >> t_limpiar_stores
     t_cargar_train >> t_diagnosticar_train >> t_limpiar_train
     t_cargar_transactions >> t_diagnosticar_transactions >> t_limpiar_transactions
-    t_cargar_holidays >> t_diagnosticar_holidays
-    t_cargar_oil >> t_diagnosticar_oil
+    t_cargar_holidays >> t_diagnosticar_holidays >> t_limpiar_holidays
+    t_cargar_oil >> t_diagnosticar_oil >> t_limpiar_oil
