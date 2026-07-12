@@ -63,5 +63,6 @@ def limpiar_oil():
     with open(RUTA_REPORTE, 'w', encoding='utf-8') as f:
         json.dump(reporte_limpieza_oil, f, indent=4, ensure_ascii=False)
 
+    df = df.write_parquet("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/processed/oil_limpio.parquet")
 
 limpiar_oil()

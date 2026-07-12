@@ -13,7 +13,7 @@ def limpiar_holidays():
     print('Renombrando columnas...')
     df = df.rename({
         'date':'fecha',
-        'type':'tipo',
+        'type':'tipo_feriado',
         'locale':'alcance',
         'locale_name':'nombre_lugar',
         'description':'descripcion',
@@ -58,6 +58,9 @@ def limpiar_holidays():
     
     with open(RUTA_REPORTE, 'w', encoding='utf-8') as f:
         json.dump(reporte_limpieza_holidays, f, indent=4, ensure_ascii=False)
+
+    df = df.write_parquet("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/processed/holidays_events_limpio.parquet")
+    
 
 
 limpiar_holidays()

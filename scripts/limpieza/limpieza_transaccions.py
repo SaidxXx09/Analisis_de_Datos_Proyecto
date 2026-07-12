@@ -52,5 +52,6 @@ def limpiar_transactions():
     with open(RUTA_REPORTE,"w", encoding="utf-8") as e:
         json.dump(reporte,e,indent=4,ensure_ascii=False)
 
+    df = df.write_parquet("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/processed/transactions_limpio.parquet")
 
 limpiar_transactions()
