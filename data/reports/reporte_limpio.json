@@ -67,7 +67,7 @@
         "columnas": 6,
         "tipos_de_dato": {
             "fecha": "Date",
-            "tipo": "String",
+            "tipo_feriado": "String",
             "alcance": "String",
             "nombre_lugar": "String",
             "descripcion": "String",
@@ -75,7 +75,7 @@
         },
         "nulos_por_columna": {
             "fecha": 0,
-            "tipo": 0,
+            "tipo_feriado": 0,
             "alcance": 0,
             "nombre_lugar": 0,
             "descripcion": 0,
