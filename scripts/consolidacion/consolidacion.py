@@ -46,7 +46,7 @@ def consolidar_dataset():
         porcentaje = (cantidad / filas) * 100
         print(f"{col} - Porcentaje de nulos: {porcentaje}%")
 
-    df.write_parquet("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/processed/concatenado.parquet")
+    df.write_parquet("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/processed/consolidacion.parquet")
 
 
 consolidar_dataset()
