@@ -7,19 +7,28 @@ def consolidar_dataset():
     stores = pl.read_parquet("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/processed/stores_limpio.parquet")
     transactions = pl.read_parquet("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/processed/transactions_limpio.parquet")
 
-    df = train.join(stores, on="num_tienda", how="left")
-    df = df.join(transactions, on=["num_tienda", "fecha"], how="left")
-    df = df.join(oil, on="fecha", how="left")
-    df = df.join(holidays, on="fecha", how="left")
+    holidays_unicos = holidays.group_by('fecha').first()
+    oil_unicos = oil.unique(subset=['fecha'])
 
-    print("Datasets concatenados")
+    df_consolidado = (
+        train
+        .join(stores, on = "num_tienda", how = "left")
+        .join(transactions, on = ["fecha", "num_tienda"], how="left")
+        .join(oil_unicos, on="fecha", how="left")
+        .join(holidays_unicos, on="fecha", how="left")
+        .with_columns([
+            pl.col("transacciones").fill_null(0),
+            pl.col("precio_diario_petroleo").fill_null(strategy="forward")
+        ])
+    )
 
-    df = df.sort("fecha")
+    print("Datasets concatenados", df_consolidado.shape)
+
+    df_consolidado = df_consolidado.sort("fecha")
 
     # Tratamiento para datos sobrantes 
-
     # Strings
-    df = df.with_columns([
+    df_consolidado = df_consolidado.with_columns([
         pl.col("tipo_feriado").fill_null("Día no feriado"),
         pl.col("alcance").fill_null("No aplica"),
         pl.col("nombre_lugar").fill_null("No aplica"),
@@ -27,26 +36,25 @@ def consolidar_dataset():
     ])
 
     # Numéricas
-    df = df.with_columns([
+    df_consolidado = df_consolidado.with_columns([
         pl.col("transacciones").fill_null(0),
         pl.col("precio_diario_petroleo").fill_null(strategy="forward"),  
     ])
 
     # Booleanos
-    df = df.with_columns([
+    df_consolidado = df_consolidado.with_columns([
         pl.col("transferido").fill_null(False)
     ])
 
-    print("Dataset tratado correctamente")
+    print("Dataset tratado correctamente", df_consolidado.shape)
 
     # Verificación 
-    nulos_finales = df.null_count().to_dicts()[0]
-    filas = df.shape[0]
+    nulos_finales = df_consolidado.null_count().to_dicts()[0]
+    filas = df_consolidado.shape[0]
     for col, cantidad in nulos_finales.items():
         porcentaje = (cantidad / filas) * 100
         print(f"{col} - Porcentaje de nulos: {porcentaje}%")
 
-    df.write_parquet("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/processed/consolidacion.parquet")
-
+    df_consolidado.write_parquet("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/processed/consolidacion.parquet")
 
 consolidar_dataset()
