@@ -23,6 +23,10 @@ from Analisis_de_Datos_Proyecto.scripts.limpieza.limpieza_oil import limpiar_oil
 # --- Concatenacion ---
 from Analisis_de_Datos_Proyecto.scripts.consolidacion.consolidacion import consolidar_dataset
 
+#--- EDA Profundo ---
+from Analisis_de_Datos_Proyecto.scripts.eda.eda_profundo import eda_profundo
+
+
 def registrar_error(context):
     logging.error(
         f"Fallo en tarea: {context['task_instance'].task_id} - DAG: {context['dag'].dag_id}"
@@ -119,9 +123,16 @@ with DAG(
         task_id = "consolidar",
         python_callable = consolidar_dataset
     )
+
+    # --- EDA Profundo ---
+    t_eda_profundo = PythonOperator(
+    task_id="eda_profundo",
+    python_callable=eda_profundo
+    )
+
     t_cargar_stores >> t_diagnosticar_stores >> t_limpiar_stores
     t_cargar_train >> t_diagnosticar_train >> t_limpiar_train
     t_cargar_transactions >> t_diagnosticar_transactions >> t_limpiar_transactions
     t_cargar_holidays >> t_diagnosticar_holidays >> t_limpiar_holidays
     t_cargar_oil >> t_diagnosticar_oil >> t_limpiar_oil
-    [t_limpiar_holidays,t_limpiar_transactions,t_limpiar_oil,t_limpiar_stores,t_limpiar_train] >> t_consolidacion
+    [t_limpiar_holidays,t_limpiar_transactions,t_limpiar_oil,t_limpiar_stores,t_limpiar_train] >> t_consolidacion >> t_eda_profundo
