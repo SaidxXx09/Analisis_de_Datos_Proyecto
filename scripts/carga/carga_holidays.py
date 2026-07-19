@@ -41,6 +41,3 @@ def diagnosticar_holidays():
 
     with open(RUTA_REPORTE, "w",encoding="utf-8") as f:
         json.dump(reporte, f, indent= 4, ensure_ascii= False)
-
-cargar_holidays()
-diagnosticar_holidays()

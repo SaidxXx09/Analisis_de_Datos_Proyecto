@@ -44,4 +44,3 @@ def limpiar_stores():
 
     df = df.write_parquet("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/processed/stores_limpio.parquet")
 
-limpiar_stores()

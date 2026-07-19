@@ -65,4 +65,3 @@ def limpiar_oil():
 
     df = df.write_parquet("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/processed/oil_limpio.parquet")
 
-limpiar_oil()

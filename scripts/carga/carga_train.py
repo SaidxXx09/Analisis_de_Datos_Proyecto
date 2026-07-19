@@ -41,6 +41,3 @@ def diagnosticar_train():
 
     with open(RUTA_REPORTE, "w",encoding="utf-8") as f:
         json.dump(reporte, f, indent= 4, ensure_ascii= False)
-
-cargar_train()
-diagnosticar_train()

@@ -54,4 +54,3 @@ def limpiar_transactions():
 
     df = df.write_parquet("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/processed/transactions_limpio.parquet")
 
-limpiar_transactions()

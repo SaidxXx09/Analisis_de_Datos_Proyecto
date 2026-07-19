@@ -41,7 +41,3 @@ def diagnosticar_oil():
 
     with open (RUTA_REPORTE, "w", encoding="utf-8") as archivo:
         json.dump(reporte, archivo, indent=4, ensure_ascii=False)
-
-
-cargar_oil()
-diagnosticar_oil()

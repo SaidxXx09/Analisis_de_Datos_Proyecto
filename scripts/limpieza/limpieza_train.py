@@ -58,4 +58,3 @@ def limpiar_train():
 
     df = df.write_parquet("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/processed/train_limpio.parquet")
 
-limpiar_train()

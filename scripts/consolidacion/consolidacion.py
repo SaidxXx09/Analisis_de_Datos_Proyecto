@@ -56,5 +56,3 @@ def consolidar_dataset():
         print(f"{col} - Porcentaje de nulos: {porcentaje}%")
 
     df_consolidado.write_parquet("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/processed/consolidacion.parquet")
-
-consolidar_dataset()
