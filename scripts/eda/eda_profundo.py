@@ -37,7 +37,9 @@ def eda_profundo():
         "top10_mayor_venta": ventas_tienda.head(10).to_dicts(),
         "top10_menor_venta": ventas_tienda.tail(10).sort("ventas_totales").to_dicts(),
     }
-# 3. Ventas promedio por ciudad y provincia
+
+
+    # 3. Ventas promedio por ciudad y provincia
     ventas_ciudad = (
         df.group_by("ciudad").agg(pl.col("ventas").mean().round(2).alias("venta_promedio"))
         .sort("venta_promedio", descending=True)
@@ -50,8 +52,9 @@ def eda_profundo():
         "ciudad_mayor": {"ciudad": ventas_ciudad["ciudad"][0], "venta_promedio": ventas_ciudad["venta_promedio"][0]},
         "provincia_mayor": {"estado": ventas_provincia["estado"][0], "venta_promedio": ventas_provincia["venta_promedio"][0]},
     }
+
  
-    # 4. Evolución temporal 2013-2017
+    # 4. Evolución temporal de ventas: tendencia mensual y anual entre 2013 y 2017.
     ventas_anuales = df.group_by("anio").agg(pl.col("ventas").sum().alias("ventas_totales")).sort("anio")
     crecimiento = ((ventas_anuales["ventas_totales"][-1] - ventas_anuales["ventas_totales"][0])
                    / ventas_anuales["ventas_totales"][0] * 100)
@@ -59,8 +62,9 @@ def eda_profundo():
         "ventas_por_anio": ventas_anuales.to_dicts(),
         "crecimiento_acumulado_pct": round(crecimiento, 2),
     }
+
  
-    # 5. Impacto de feriados nacionales en ventas
+    # 5. Impacto de feriados nacionales en el volumen de ventas: comparación días feriados vs días normales.
     df = df.with_columns(
         ((pl.col("alcance") == "National") & (~pl.col("transferido"))
          & (pl.col("tipo_feriado") != "Work Day")).alias("es_feriado_nacional")
@@ -80,8 +84,9 @@ def eda_profundo():
         "venta_diaria_promedio_normal": media_normal,
         "diferencia_pct": diferencia_pct,
     }
+
  
-    # 6. Ventas ventana -3/+3 dias por familia (categoria)
+    # 6. Ventas en los tres días previos y posteriores a feriados nacionales por familia de producto.
     fechas_feriado_nacional = df.filter(pl.col("es_feriado_nacional")).select("fecha").unique()
     ventas_por_familia_dia = (
         df.group_by(["fecha", "categoria"]).agg(pl.col("ventas").sum().alias("ventas_dia"))
@@ -98,6 +103,49 @@ def eda_profundo():
         "familias_top3_ventana": ventana_familia.head(3).to_dicts(),
         "familias_bottom3_ventana": ventana_familia.tail(3).to_dicts(),
     }
+
+
+    # 7 ¿Qué familias de productos son más sensibles a los feriados?
+    venta_prom_feriado_familia = (
+        ventas_por_familia_dia.join(df.select(["fecha", "es_feriado_nacional"]).unique(), on="fecha", how="left")
+        .group_by(["categoria", "es_feriado_nacional"]).agg(pl.col("ventas_dia").mean().alias("venta_promedio"))
+    )
+    pivot_feriado = venta_prom_feriado_familia.pivot(index="categoria", columns="es_feriado_nacional", values="venta_promedio")
+    sensibilidad = pivot_feriado.with_columns(
+        ((pl.col("true") - pl.col("false")) / pl.col("false") * 100).round(2).alias("cambio_pct")
+    ).sort("cambio_pct", descending=True)
+    r["7_familias_sensibles_feriados"] = {
+        "mas_beneficiadas": sensibilidad.head(3).select(["categoria", "cambio_pct"]).to_dicts(),
+        "menos_beneficiadas": sensibilidad.tail(3).select(["categoria", "cambio_pct"]).to_dicts(),
+    }
+
+
+    #8. Comparación de ventas con y sin promoción por familia de producto.
+    df_promo = df.with_columns((pl.col("promocion") > 0).alias("tiene_promocion"))
+    venta_con = df_promo.filter(pl.col("tiene_promocion"))["ventas"].mean()
+    venta_sin = df_promo.filter(~pl.col("tiene_promocion"))["ventas"].mean()
+
+    r["8_ventas_con_sin_promo"] = {
+        "venta_promedio_con_promo": round(venta_con, 2),
+        "venta_promedio_sin_promo": round(venta_sin, 2),
+    }
+
+
+    #9. ¿Las promociones incrementan las ventas? ¿En qué familias tienen mayor efecto?
+    pivot_promo = (
+        df_promo.group_by(["categoria", "tiene_promocion"]).agg(pl.col("ventas").mean().round(2).alias("venta_promedio"))
+        .pivot(index="categoria", columns="tiene_promocion", values="venta_promedio")
+    )
+    efecto_promo = pivot_promo.with_columns(
+        ((pl.col("true") - pl.col("false")) / pl.col("false") * 100).round(2).alias("incremento_pct")
+    ).filter(pl.col("incremento_pct").is_not_null()).sort("incremento_pct", descending=True)
+    incremento_general = round((venta_con - venta_sin) / venta_sin * 100, 2)
+
+    r["9_efecto_promocion"] = {
+        "incremento_general_pct": incremento_general,
+        "familias_mayor_efecto": efecto_promo.head(3).select(["categoria", "incremento_pct"]).to_dicts(),
+    }
+
 
 
     #10. Correlación entre precio del petróleo y ventas totales mensuales.
