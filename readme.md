@@ -1,17 +1,21 @@
 # Pipeline del Dataset de Ventas de Corporación Favorita
 
 ## 1. Descripción del proyecto
-El proyecto consiste en aplicar todas las etapas del proceso de análisis de datos: extracción (Polars), transformación (Polars), análisis (Polars), visualización (Power BI), carga de datos de diferentes fuentes (PostgreSQL) y la interpretación en conclusiones.  
+El proyecto consiste en aplicar todas las etapas del proceso de análisis de datos organizado por apache Airflow que extrae, limpia, análisa, los datasets para que el resultado poder exponer en PostgreSQL con la visualización en tiempo real desde Power BI. 
+
+El pipeline es ejecutado en una VM de azure, en la cual se usa Polars como motor de transformacion y PostgresSQL para alamacenamiento de los datos.
 
 ---
 
 ## 2. Descripción de los archivos del dataset y su rol en el pipeline
-* **train.csv**: Contiene los registros transaccionales base que ingresan al sistema.
-* **stores.csv**: Dataset dimensional utilizado para el análisis de impacto comparativo de ventas durante días festivos.
-* **transactions.csv**: Catálogo para normalizar las categorías durante la fase de transformación.
-* **oil.csv**: Catálogo para normalizar las categorías durante la fase de transformación.
-* **holidays_events.csv**: Catálogo para normalizar las categorías durante la fase de transformación.
 
+| Archivo | Registros | Columnas | Rol en el pipeline |
+|---|---|---|---|
+| `train.csv` | 3,000,888 | 6 | Dataset principal: ventas diarias por tienda y familia de producto. Base del consolidado. |
+| `stores.csv` | 54 | 5 | Metadatos de tiendas (ciudad, provincia, tipo, clúster). Se une a `train` por `store_nbr`. |
+| `transactions.csv` | 83,488 | 3 | Número de transacciones por tienda y día. Se une por `store_nbr` + `date`. |
+| `oil.csv` | 1,218 | 2 | Precio diario del petróleo WTI (indicador económico de Ecuador). Se une por `date`. |
+| `holidays_events.csv` | 350 | 6 | Feriados y eventos (nacionales, regionales, locales). Se une por `date`. |
 ---
 
 ## 3. Diagrama de arquitectura de la solución
@@ -24,9 +28,19 @@ En esta sección se muestra cómo interactúan los componentes desde la ingesta 
 ## 4. Descripción del DAG: tareas, dependencias y configuración
 El DAG se ejecuta de manera manual mediante la interfaz del Airflow con las credenciales que se generan automaticamente al momento de correr el airflow.
 Al ejecutarlo, comienza con todo el proceso de análisis de datos de manera automática hasta la exportación de los 5 datasets consolidados en 1 en PostgreSQL para su correcto consumo por Power BI.
-* **Tareas**: `extraer_datos` -> `eda_inicial` -> `limpieza` -> `eda_profundo` -> `exportación`
 * **Dependencias**: La carga a la base de datos solo se ejecuta si la validación de limpieza es exitosa.
 * **Configuración**: Retries configurados a 3 intentos con 5 minutos de espera.
+
+| Grupo | Tareas | Dependencia |
+|---|---|---|
+| Stores | `cargar_stores` → `diagnosticar_stores` → `limpiar_stores` | Secuencial |
+| Train | `cargar_train` → `diagnosticar_train` → `limpiar_train` | Secuencial |
+| Transactions | `cargar_transactions` → `diagnosticar_transactions` → `limpiar_transactions` | Secuencial |
+| Holidays | `cargar_holidays` → `diagnosticar_holidays` → `limpiar_holidays` | Secuencial |
+| Oil | `cargar_oil` → `diagnosticar_oil` → `limpiar_oil` | Secuencial |
+| Consolidación | `consolidar` | Espera a que las 5 ramas de limpieza terminen |
+| EDA | `eda_profundo` | Después de `consolidar` |
+| Exportación | `exportacion` | Después de `eda_profundo` |
 
 ---
 
