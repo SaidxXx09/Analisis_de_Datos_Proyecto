@@ -26,6 +26,9 @@ from Analisis_de_Datos_Proyecto.scripts.consolidacion.consolidacion import conso
 #--- EDA Profundo ---
 from Analisis_de_Datos_Proyecto.scripts.eda.eda_profundo import eda_profundo
 
+#--- Exportacion ---
+from Analisis_de_Datos_Proyecto.scripts.exportar.exportacion import exportar_consolidado
+
 
 def registrar_error(context):
     logging.error(
@@ -130,9 +133,15 @@ with DAG(
     python_callable=eda_profundo
     )
 
+    # --- Exportacion ---
+    t_exportacion = PythonOperator(
+        task_id = "exportacion",
+        python_callable= exportar_consolidado
+    )
+
     t_cargar_stores >> t_diagnosticar_stores >> t_limpiar_stores
     t_cargar_train >> t_diagnosticar_train >> t_limpiar_train
     t_cargar_transactions >> t_diagnosticar_transactions >> t_limpiar_transactions
     t_cargar_holidays >> t_diagnosticar_holidays >> t_limpiar_holidays
     t_cargar_oil >> t_diagnosticar_oil >> t_limpiar_oil
-    [t_limpiar_holidays,t_limpiar_transactions,t_limpiar_oil,t_limpiar_stores,t_limpiar_train] >> t_consolidacion >> t_eda_profundo
+    [t_limpiar_holidays,t_limpiar_transactions,t_limpiar_oil,t_limpiar_stores,t_limpiar_train] >> t_consolidacion >> t_eda_profundo >> t_exportacion
