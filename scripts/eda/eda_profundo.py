@@ -210,3 +210,6 @@ def eda_profundo():
         "ticket_mas_alto": resumen_tienda.head(3).select(["num_tienda", "ticket_promedio"]).to_dicts(),
         "ticket_mas_bajo": resumen_tienda.tail(3).sort("ticket_promedio").select(["num_tienda", "ticket_promedio"]).to_dicts(),
     }
+
+    
+eda_profundo()
