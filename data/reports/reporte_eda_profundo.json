@@ -1,0 +1,281 @@
+{
+    "1_familias_mayor_volumen": {
+        "familias_top3": [
+            "GROCERY I",
+            "BEVERAGES",
+            "PRODUCE"
+        ],
+        "pct_acumulado_top3": 63.63
+    },
+    "2_ranking_tiendas": {
+        "top10_mayor_venta": [
+            {
+                "num_tienda": 44,
+                "ventas_totales": 62087553.250089005
+            },
+            {
+                "num_tienda": 45,
+                "ventas_totales": 54498010.41667393
+            },
+            {
+                "num_tienda": 47,
+                "ventas_totales": 50948310.06100581
+            },
+            {
+                "num_tienda": 3,
+                "ventas_totales": 50481910.185081914
+            },
+            {
+                "num_tienda": 49,
+                "ventas_totales": 43420095.78376794
+            },
+            {
+                "num_tienda": 46,
+                "ventas_totales": 41896062.12163416
+            },
+            {
+                "num_tienda": 48,
+                "ventas_totales": 35933130.27393645
+            },
+            {
+                "num_tienda": 51,
+                "ventas_totales": 32911489.537604075
+            },
+            {
+                "num_tienda": 8,
+                "ventas_totales": 30494286.928014982
+            },
+            {
+                "num_tienda": 50,
+                "ventas_totales": 28653020.62469537
+            }
+        ],
+        "top10_menor_venta": [
+            {
+                "num_tienda": 52,
+                "ventas_totales": 2696169.733249
+            },
+            {
+                "num_tienda": 22,
+                "ventas_totales": 4090201.7408000017
+            },
+            {
+                "num_tienda": 32,
+                "ventas_totales": 5951795.997551501
+            },
+            {
+                "num_tienda": 30,
+                "ventas_totales": 7382073.663962993
+            },
+            {
+                "num_tienda": 35,
+                "ventas_totales": 7676679.421669592
+            },
+            {
+                "num_tienda": 26,
+                "ventas_totales": 7755121.891864817
+            },
+            {
+                "num_tienda": 42,
+                "ventas_totales": 8945767.885162694
+            },
+            {
+                "num_tienda": 21,
+                "ventas_totales": 9255505.91020998
+            },
+            {
+                "num_tienda": 10,
+                "ventas_totales": 9613905.735863008
+            },
+            {
+                "num_tienda": 29,
+                "ventas_totales": 9725157.696084004
+            }
+        ]
+    },
+    "3_ventas_ciudad_provincia": {
+        "ciudad_mayor": {
+            "ciudad": "Quito",
+            "venta_promedio": 556.58
+        },
+        "provincia_mayor": {
+            "estado": "Pichincha",
+            "venta_promedio": 554.11
+        }
+    },
+    "4_evolucion_temporal": {
+        "ventas_por_anio": [
+            {
+                "anio": 2013,
+                "ventas_totales": 140419013.91961735
+            },
+            {
+                "anio": 2014,
+                "ventas_totales": 209474246.3015452
+            },
+            {
+                "anio": 2015,
+                "ventas_totales": 240880100.6547401
+            },
+            {
+                "anio": 2016,
+                "ventas_totales": 288654522.9538961
+            },
+            {
+                "anio": 2017,
+                "ventas_totales": 194217068.37327263
+            }
+        ],
+        "crecimiento_acumulado_pct": 38.31
+    },
+    "5_impacto_feriados": {
+        "venta_diaria_promedio_feriado": 753720.66,
+        "venta_diaria_promedio_normal": 628242.38,
+        "diferencia_pct": 19.97
+    },
+    "6_ventana_feriados_por_familia": {
+        "familias_top3_ventana": [
+            {
+                "categoria": "GROCERY I",
+                "venta_promedio_ventana": 213600.9
+            },
+            {
+                "categoria": "BEVERAGES",
+                "venta_promedio_ventana": 132207.53
+            },
+            {
+                "categoria": "PRODUCE",
+                "venta_promedio_ventana": 73819.49
+            }
+        ],
+        "familias_bottom3_ventana": [
+            {
+                "categoria": "HOME APPLIANCES",
+                "venta_promedio_ventana": 25.77
+            },
+            {
+                "categoria": "BABY CARE",
+                "venta_promedio_ventana": 5.61
+            },
+            {
+                "categoria": "BOOKS",
+                "venta_promedio_ventana": 4.36
+            }
+        ]
+    },
+    "7_familias_sensibles_feriados": {
+        "mas_beneficiadas": [
+            {
+                "categoria": "FROZEN FOODS",
+                "cambio_pct": 133.64
+            },
+            {
+                "categoria": "LIQUOR,WINE,BEER",
+                "cambio_pct": 80.78
+            },
+            {
+                "categoria": "MAGAZINES",
+                "cambio_pct": 57.28
+            }
+        ],
+        "menos_beneficiadas": [
+            {
+                "categoria": "BREAD/BAKERY",
+                "cambio_pct": 4.0
+            },
+            {
+                "categoria": "MEATS",
+                "cambio_pct": 3.08
+            },
+            {
+                "categoria": "SEAFOOD",
+                "cambio_pct": 1.99
+            }
+        ]
+    },
+    "8_ventas_con_sin_promo": {
+        "venta_promedio_con_promo": 1137.69,
+        "venta_promedio_sin_promo": 158.25
+    },
+    "9_efecto_promocion": {
+        "incremento_general_pct": 618.94,
+        "familias_mayor_efecto": [
+            {
+                "categoria": "SCHOOL AND OFFICE SUPPLIES",
+                "incremento_pct": 4265.69
+            },
+            {
+                "categoria": "BABY CARE",
+                "incremento_pct": 1409.09
+            },
+            {
+                "categoria": "PET SUPPLIES",
+                "incremento_pct": 351.28
+            }
+        ]
+    },
+    "10_correlacion_petroleo_ventas": {
+        "r_pearson": -0.751
+    },
+    "11_lag_petroleo_ventas": {
+        "mejor_lag_meses": -2,
+        "r_pearson": -0.691
+    },
+    "12_ciudades_sensibles_petroleo": {
+        "ciudades_mas_afectadas": [
+            {
+                "ciudad": "Quevedo",
+                "cambio_pct": 12.89
+            },
+            {
+                "ciudad": "Cayambe",
+                "cambio_pct": 14.43
+            },
+            {
+                "ciudad": "Loja",
+                "cambio_pct": 15.14
+            },
+            {
+                "ciudad": "Ambato",
+                "cambio_pct": 18.04
+            },
+            {
+                "ciudad": "Ibarra",
+                "cambio_pct": 24.27
+            }
+        ]
+    },
+    "13_transacciones_vs_ventas": {
+        "r_pearson": 0.953
+    },
+    "14_ticket_promedio_tienda": {
+        "ticket_mas_alto": [
+            {
+                "num_tienda": 51,
+                "ticket_promedio": 0.35
+            },
+            {
+                "num_tienda": 42,
+                "ticket_promedio": 0.34
+            },
+            {
+                "num_tienda": 21,
+                "ticket_promedio": 0.33
+            }
+        ],
+        "ticket_mas_bajo": [
+            {
+                "num_tienda": 34,
+                "ticket_promedio": 0.13
+            },
+            {
+                "num_tienda": 14,
+                "ticket_promedio": 0.15
+            },
+            {
+                "num_tienda": 15,
+                "ticket_promedio": 0.16
+            }
+        ]
+    }
+}

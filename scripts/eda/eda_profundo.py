@@ -211,5 +211,13 @@ def eda_profundo():
         "ticket_mas_bajo": resumen_tienda.tail(3).sort("ticket_promedio").select(["num_tienda", "ticket_promedio"]).to_dicts(),
     }
 
+
+
+    os.makedirs(os.path.dirname(RUTA_RESULTADOS), exist_ok=True)
+    with open(RUTA_RESULTADOS, "w", encoding="utf-8") as f:
+        json.dump(r, f, indent=4, ensure_ascii=False, default=str)
+    print("Resultados exportados a:", RUTA_RESULTADOS)
+    return r
+
     
 eda_profundo()
