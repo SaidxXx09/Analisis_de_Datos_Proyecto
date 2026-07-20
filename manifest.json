@@ -1,0 +1,33 @@
+{
+    "proyecto": "Analisis de Datos - Corporacion Favorita",
+    "version": "1.0.0",
+    "fecha_actualizacion": "2026-07-19",
+    "datasets": {
+        "train": {
+            "archivo": "train.csv",
+            "filas_aproximadas": 3000888,
+            "ultima_carga": "2026-07-19"
+        },
+        "stores": {
+            "archivo": "stores.csv",
+            "filas_aproximadas": 54,
+            "ultima_carga": "2026-07-19"
+        },
+        "transactions": {
+            "archivo": "transactions.csv",
+            "filas_aproximadas": 83488,
+            "ultima_carga": "2026-07-19"
+        },
+        "oil": {
+            "archivo": "oil.csv",
+            "filas_aproximadas": 1218,
+            "ultima_carga": "2026-07-19"
+        },
+        "holidays_events": {
+            "archivo": "holidays_events.csv",
+            "filas_aproximadas": 350,
+            "ultima_carga": "2026-07-19"
+        }
+    },
+    "cambios": "Version inicial del pipeline completo"
+}
