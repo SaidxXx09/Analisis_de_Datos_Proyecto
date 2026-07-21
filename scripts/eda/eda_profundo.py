@@ -218,6 +218,3 @@ def eda_profundo():
         json.dump(r, f, indent=4, ensure_ascii=False, default=str)
     print("Resultados exportados a:", RUTA_RESULTADOS)
     return r
-
-    
-eda_profundo()
