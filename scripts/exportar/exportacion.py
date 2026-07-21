@@ -1,24 +1,75 @@
+
 import polars as pl
-import psycopg2
+import adbc_driver_postgresql.dbapi
+
+
+RUTA_PARQUET = (
+    "/home/azureuser/proyecto_favorita/"
+    "Analisis_de_Datos_Proyecto/data/processed/consolidacion.parquet"
+)
+
+CONEXION_POSTGRES = (
+    "postgresql://favorita_user:"
+    "183132"
+    "@localhost:5432/favorita_db"
+)
 
 
 def exportar_consolidado():
-    conn_str = "postgresql://favorita_user:183132@localhost:5432/favorita_db"
-    df = pl.read_parquet("/home/azureuser/proyecto_favorita/Analisis_de_Datos_Proyecto/data/processed/consolidacion.parquet")
+    print("Leyendo archivo consolidado...")
 
-    # Truncate a la tabla para no eliminar las vistas que consume mi PowerBI
-    conn = psycopg2.connect(conn_str)
-    conn.autocommit = True
-    with conn.cursor() as cur:
-        cur.execute("TRUNCATE TABLE datos_consolidados")
-    conn.close()
+    df = pl.read_parquet(RUTA_PARQUET)
 
-    df.write_database(
-        table_name='datos_consolidados',
-        connection=conn_str,
-        if_table_exists='append',
-        engine='adbc'
+    conexion = adbc_driver_postgresql.dbapi.connect(
+        CONEXION_POSTGRES
     )
-    print("Datos cargados correctamente!")
 
-exportar_consolidado()
+    try:
+        # El TRUNCATE y la inserción forman parte
+        # de la misma transacción.
+        with conexion.cursor() as cursor:
+            cursor.execute(
+                "TRUNCATE TABLE public.datos_consolidados"
+            )
+
+        filas_reportadas = df.write_database(
+            table_name="public.datos_consolidados",
+            connection=conexion,
+            if_table_exists="append",
+            engine="adbc",
+        )
+
+        conexion.commit()
+
+        with conexion.cursor() as cursor:
+            cursor.execute(
+                "SELECT COUNT(*) "
+                "FROM public.datos_consolidados"
+            )
+            total_postgres = cursor.fetchone()[0]
+
+        if total_postgres != df.height:
+            raise RuntimeError(
+                "La cantidad cargada no coincide. "
+                f"Parquet: {df.height:,}; "
+                f"PostgreSQL: {total_postgres:,}"
+            )
+
+        print(f"Filas reportadas por ADBC: {filas_reportadas}")
+        print(
+            "Datos cargados correctamente: "
+            f"{total_postgres:,} registros."
+        )
+
+    except Exception:
+        conexion.rollback()
+        print("La exportación falló. Se revirtieron los cambios.")
+        raise
+
+    finally:
+        conexion.close()
+
+
+if __name__ == "__main__":
+    exportar_consolidado()
+
