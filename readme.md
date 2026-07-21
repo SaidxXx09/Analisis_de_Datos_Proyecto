@@ -22,15 +22,24 @@ El pipeline se ejecuta en una máquina virtual de Azure, en la cual se utiliza P
 
 ## 3. Diagrama de arquitectura de la solución
 
-En esta sección se muestra cómo interactúan los componentes desde la ingesta de los datos hasta su visualización.
-<p align="center">
-  <img src="docs/images/fluj.jpeg"
-       alt="Dashboard de Power BI"
-       width="900">
-</p>
-
-
----
+```
+┌─────────────┐     ┌──────────────┐     ┌───────────────┐     ┌────────────────┐
+│  CSV origen │ ──▶ │   Airflow    │ ──▶ │  Consolidado   │ ──▶ │   PostgreSQL   │
+│ (5 archivos)│     │ (Carga →     │     │   (Parquet)    │     │ (favorita_db)  │
+│             │     │  Limpieza →  │     │                │     │                │
+│             │     │  Consolida → │     │                │     │                │
+│             │     │  EDA →       │     │                │     │                │
+│             │     │  Exporta)    │     │                │     │                │
+└─────────────┘     └──────────────┘     └───────────────┘     └───────┬────────┘
+                                                                        │
+                                                                DirectQuery
+                                                                        │
+                                                                        ▼
+                                                              ┌──────────────────┐
+                                                              │   Power BI       │
+                                                              │   Dashboard      │
+                                                              └──────────────────┘
+```
 
 ## 4. Descripción del DAG: tareas, dependencias y configuración
 
