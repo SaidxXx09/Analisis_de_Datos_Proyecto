@@ -131,8 +131,27 @@ git clone "https://github.com/SaidxXx09/Analisis_de_Datos_Proyecto/"
 
 ## 9. Conclusiones
 
+1. Se implementó correctamente un pipeline automatizado con Apache Airflow, integrando las carga, diagnóstico, limpieza, consolidación, análisis y exportación de los datos.
+
+2. El uso de Polars permitió procesar eficientemente más de tres millones de registros, manteniendo la información completa y mejorando el rendimiento durante las transformaciones.
+
+3. El proceso de limpieza permitió corregir los valores nulos encontrados, especialmente en oil, sin necesidad de eliminar registros importantes del dataset.
+
+4. La consolidación integró la información de ventas, tiendas, transacciones, feriados y petróleo en un solo conjunto de datos, facilitando el análisis y haciendolo más completo.
+
+5. La conexión entre PostgreSQL y Power BI permitió presentar los resultados mediante gráficos claros e interactivos, facilitando la interpretación de la información obtenida.
 ---
 
 ## 10. Recomendaciones
+
+1. Implementar cargas incrementales para procesar únicamente los registros nuevos y reducir el tiempo total de ejecución del pipeline.
+
+2. Programar el DAG para que se ejecute automáticamente en horarios establecidos, evitando depender únicamente de ejecuciones manuales.
+
+3. Configurar alertas que informen cuando alguna tarea falle o cuando la cantidad de registros procesados no coincida con la esperada.
+
+4. Mantener restringido el acceso a PostgreSQL mediante direcciones IP autorizadas y almacenar las credenciales de forma segura.
+
+5. Realizar copias de seguridad periódicas de la base de datos y los reportes generados para evitar la pérdidas de información.
 
 ---
