@@ -96,6 +96,19 @@ En esta sección se presenta la visualización del impacto de las festividades e
 </p>
 
 
+<p align="center">
+  <img src="docs/images/WhatsApp Image 2026-07-20 at 8.12.54 PM.jpeg"
+       alt="Dashboard de Power BI"
+       width="900">
+</p>
+
+
+<p align="center">
+  <img src="docs/images/WhatsApp Image 2026-07-20 at 8.12.34 PM.jpeg"
+       alt="Dashboard de Power BI"
+       width="900">
+</p>
+
 
 ---
 
