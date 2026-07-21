@@ -52,34 +52,32 @@ Al ejecutarlo, comienza todo el proceso de análisis de datos de manera automát
 
 ## 5. Proceso del pipeline: descripción de cada etapa con capturas de Airflow
 
-### Extracción y EDA inicial
+**Etapa 1 — Carga:** cada script `cargar_*` lee el CSV origen con Polars y lo escribe como Parquet en `data/processed/`. Cada `diagnosticar_*` perfila el Parquet y agrupa los resultados en `data/reports/reporte_informativo.json`.
 
-Mediante Polars, se extraen los datos de cada uno de los datasets: `train`, `stores`, `transactions`, `oil` y `holidays_events`.
+**Etapa 2 — Limpieza:** cada script `limpiar_*` cambia el nombre de las columnas a español, corrige tipos como fechas, strings, y escribe un Parquet `_limpio`. Resultados agrupados en `data/reports/reporte_limpio.json`.
 
-Los datos extraídos se almacenan en formato Parquet con la finalidad de optimizar la velocidad de lectura y procesamiento.
+**Etapa 3 — Consolidación:** `consolidar_dataset` une `train_limpio` con `stores`, `transactions`, `oil` y `holidays` (todos `left join`, ancla en `train`), y aplica reglas de relleno para las columnas que quedan nulas por registros sin feriado, sin transacción reportada, etc. Resultado: `consolidacion.parquet`, 3,000,888 filas × 17 columnas.
 
-Por último, se genera un archivo llamado `reporte_inicial.json`, el cual contiene toda la información relevante de cada dataset.
+**Etapa 4 — EDA profundo:** `eda_profundo` Se realiza las 14 respuestas analíticas (ventas por familia, ranking de tiendas, estacionalidad, feriados, promociones, petróleo, transacciones) y las exporta a `data/reports/reporte_eda_profundo.json`.
 
-![Captura de Airflow - Extracción](ruta/a/tu/captura1.png)
+**Etapa 5 — Exportación:** `exportar_consolidado` trunca la tabla `datos_consolidados` en PostgreSQL (sin eliminarla, para no romper las vistas dependientes) e inserta el Parquet consolidado vía ADBC, dentro de una transacción con verificación de el numero de filas antes de confirmar.
 
-### Transformación
-
-Mediante el análisis realizado durante el EDA inicial, se efectúa la limpieza de los datos nulos y duplicados, además de la corrección de los tipos de datos.
-
-Asimismo, se estandarizan al español los nombres de las columnas de todos los datasets.
-
-![Captura de Airflow - Transformación](ruta/a/tu/captura2.png)
 
 ---
 
 ## 6. Métricas del pipeline
 
-| Métrica                                             | Valor o promedio |
-| --------------------------------------------------- | ---------------: |
-| Tiempo total de ejecución                           |       14 minutos |
-| Registros iniciales                                 |        1,500,000 |
-| Registros eliminados por valores nulos o duplicados |            4,230 |
-| Registros finales procesados                        |        1,495,770 |
+**Registros procesados por etapa (fuente: `reporte_informativo.json` y `reporte_limpio.json`):**
+
+| Dataset | Filas cargadas | Nulos detectados (bruto) | Nulos tras limpieza | Duplicados |
+|---|---|---|---|---|
+| train | 3,000,888 | 0 | 0 | 0 |
+| stores | 54 | 0 | 0 | 0 |
+| transactions | 83,488 | 0 | 0 | 0 |
+| holidays_events | 350 | 0 | 0 | 0 |
+| oil | 1,218 | 43 (en `precio_diario_petroleo`) | 0 (imputados con mediana) | 0 |
+
+**Registros eliminados en limpieza:** 0 filas eliminadas en ningún dataset — no se detectaron duplicados. El único tratamiento fue la imputación de nulos en "oil" y relleno de columnas derivadas del join en la consolidación (feriados/transacciones/petróleo ausentes en fechas sin coincidencia).
 
 ---
 
