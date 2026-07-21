@@ -23,8 +23,12 @@ El pipeline se ejecuta en una máquina virtual de Azure, en la cual se utiliza P
 ## 3. Diagrama de arquitectura de la solución
 
 En esta sección se muestra cómo interactúan los componentes desde la ingesta de los datos hasta su visualización.
+<p align="center">
+  <img src="docs/images/fluj.jpeg"
+       alt="Dashboard de Power BI"
+       width="900">
+</p>
 
-![Diagrama de arquitectura](ruta/a/tu/diagrama_arquitectura.png)
 
 ---
 
