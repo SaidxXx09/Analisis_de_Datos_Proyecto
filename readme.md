@@ -85,7 +85,13 @@ Al ejecutarlo, comienza todo el proceso de análisis de datos de manera automát
 
 En esta sección se presenta la visualización del impacto de las festividades en la línea de tiempo mensual.
 
-![Dashboard de Power BI - Vista general](ruta/a/tu/dashboard_powerbi.png)
+<p align="center">
+  <img src="docs/images/WhatsApp Image 2026-07-20 at 8.12.15 PM (1).jpeg"
+       alt="Dashboard de Power BI"
+       width="1000">
+</p>
+
+
 
 ---
 
